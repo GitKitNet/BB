@@ -51,5 +51,21 @@ Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'
 &powershell -NoProfile -ExecutionPolicy unrestricted -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Runtime windowsdesktop -Channel 6.0 -InstallDir C:\cli"
 
 
+<#
+ * Install WSL on windows
+#>
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl --set-default-version 2
+wsl --list --online
+wsl --update
+
+$DistroName="Ubuntu-20.04"
+wsl --install -d ${DistroName}
+wsl -s ${DistroName}
+wsl --set-default-version 2
+wsl npm init
+npm init
+
 
 
